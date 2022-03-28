@@ -2,10 +2,11 @@ package scan
 
 import (
 	"fmt"
-	go_nmap "github.com/lair-framework/go-nmap"
-	"github.com/marco-lancini/goscan/core/model"
-	"github.com/marco-lancini/goscan/core/utils"
 	"time"
+	"toolscan/goscan/core/model"
+	"toolscan/goscan/core/utils"
+
+	go_nmap "github.com/lair-framework/go-nmap"
 )
 
 // ---------------------------------------------------------------------------------------
@@ -62,9 +63,9 @@ func execScan(name, target, folder, file, nmapArgs string) {
 		//   - target is ALL
 		//   - or if target is TO_ANALYZE and host still need to be analyzed
 		//   - or if host is the selected one
-		if target == "ALL" || 
-		   (target == "TO_ANALYZE" && h.Step == model.NEW.String()) || 
-		   target == h.Address {
+		if target == "ALL" ||
+			(target == "TO_ANALYZE" && h.Step == model.NEW.String()) ||
+			target == h.Address {
 			temp := h
 			fname := fmt.Sprintf("%s_%s", file, h.Address)
 			go worker(name, &temp, folder, fname, nmapArgs)

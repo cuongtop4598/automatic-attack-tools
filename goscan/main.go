@@ -2,11 +2,14 @@ package main
 
 import (
 	"fmt"
+	"strings"
+
+	"toolscan/goscan/core/cli"
+
+	"toolscan/goscan/core/utils"
+
 	"github.com/c-bata/go-prompt"
 	"github.com/fatih/color"
-	"github.com/marco-lancini/goscan/core/cli"
-	"github.com/marco-lancini/goscan/core/utils"
-	"strings"
 )
 
 var (

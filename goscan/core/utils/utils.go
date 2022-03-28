@@ -2,13 +2,14 @@ package utils
 
 import (
 	"fmt"
-	"github.com/jinzhu/gorm"
-	"github.com/marco-lancini/goscan/core/model"
 	"os"
 	"os/exec"
 	"os/user"
 	"path/filepath"
 	"strings"
+	"toolscan/goscan/core/model"
+
+	"github.com/jinzhu/gorm"
 )
 
 // ---------------------------------------------------------------------------------------
@@ -57,7 +58,7 @@ type config struct {
 // From now on it will be accessible as utils.Config
 func InitConfig() {
 	Config = config{}
-	
+
 	// Initialize logger
 	Config.Log = InitLogger()
 
@@ -91,7 +92,6 @@ func ChangeOutFolder(path string) {
 	Config.DB = model.InitDB(Config.DBPath)
 	Config.Log.LogDebug("Connected to DB")
 }
-
 
 // ---------------------------------------------------------------------------------------
 // MANAGE COMMANDS

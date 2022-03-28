@@ -2,8 +2,8 @@ package enum
 
 import (
 	"fmt"
-	"github.com/marco-lancini/goscan/core/utils"
 	"strings"
+	"toolscan/goscan/core/utils"
 )
 
 func (s *EnumScan) EnumSSH() {

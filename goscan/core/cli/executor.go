@@ -3,14 +3,15 @@ package cli
 import (
 	"bufio"
 	"fmt"
-	"github.com/marco-lancini/goscan/core/enum"
-	"github.com/marco-lancini/goscan/core/model"
-	"github.com/marco-lancini/goscan/core/scan"
-	"github.com/marco-lancini/goscan/core/utils"
-	"github.com/olekukonko/tablewriter"
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"toolscan/goscan/core/enum"
+	"toolscan/goscan/core/model"
+	"toolscan/goscan/core/scan"
+	"toolscan/goscan/core/utils"
+
+	"github.com/olekukonko/tablewriter"
 )
 
 func Executor(s string) {
@@ -195,16 +196,16 @@ func loadPortscan(src string) bool {
 	if fpath.IsDir() {
 		err := filepath.Walk(src,
 			func(path string, info os.FileInfo, err error) error {
-			if err != nil {
-				utils.Config.Log.LogError(fmt.Sprintf("Error while listing content of directory: %s", src))
-				return err
-			}
-			t, _ := os.Stat(path)
-			if filepath.Ext(t.Name()) == ".xml" {
-				loadNmapXML(path)
-			}
-			return nil
-		})
+				if err != nil {
+					utils.Config.Log.LogError(fmt.Sprintf("Error while listing content of directory: %s", src))
+					return err
+				}
+				t, _ := os.Stat(path)
+				if filepath.Ext(t.Name()) == ".xml" {
+					loadNmapXML(path)
+				}
+				return nil
+			})
 		if err != nil {
 			return false
 		}
@@ -287,25 +288,24 @@ func cmdEnumerate(args []string) {
 func cmdSpecial(args []string) {
 	what, args := utils.ParseNextArg(args)
 	switch what {
-		case "eyewitness":
-			scan.EyeWitness()
-		case "domain":
-			kind, _ := utils.ParseNextArg(args)
-			scan.GatherDomain(kind)
-		case "dns":
-			// Get type of scan and target domain
-			kind, args := utils.ParseNextArg(args)
-			target, args := utils.ParseNextArg(args)
-			// Get base ip
-			baseIP := ""
-			if kind == "BRUTEFORCE_REVERSE" {
-				baseIP, _ = utils.ParseNextArg(args)
-			}
-			// Perform port scan
-			scan.ScanDNS(target, kind, baseIP)
+	case "eyewitness":
+		scan.EyeWitness()
+	case "domain":
+		kind, _ := utils.ParseNextArg(args)
+		scan.GatherDomain(kind)
+	case "dns":
+		// Get type of scan and target domain
+		kind, args := utils.ParseNextArg(args)
+		target, args := utils.ParseNextArg(args)
+		// Get base ip
+		baseIP := ""
+		if kind == "BRUTEFORCE_REVERSE" {
+			baseIP, _ = utils.ParseNextArg(args)
+		}
+		// Perform port scan
+		scan.ScanDNS(target, kind, baseIP)
 	}
 }
-
 
 // ---------------------------------------------------------------------------------------
 // SHOW
