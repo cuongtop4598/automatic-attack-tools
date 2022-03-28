@@ -3,7 +3,7 @@ package enum
 import (
 	"fmt"
 	"strings"
-	"toolscan/goscan/core/utils"
+	"toolscan/core/utils"
 )
 
 func (s *EnumScan) EnumSQL() {

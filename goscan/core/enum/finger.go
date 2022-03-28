@@ -2,7 +2,7 @@ package enum
 
 import (
 	"fmt"
-	"toolscan/goscan/core/utils"
+	"toolscan/core/utils"
 )
 
 func (s *EnumScan) EnumFINGER() {

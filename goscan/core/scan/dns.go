@@ -6,7 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-	"toolscan/goscan/core/utils"
+	"toolscan/core/utils"
 )
 
 // ---------------------------------------------------------------------------------------

@@ -5,8 +5,8 @@ import (
 	"io/ioutil"
 	"path/filepath"
 	"strings"
-	"toolscan/goscan/core/model"
-	"toolscan/goscan/core/utils"
+	"toolscan/core/model"
+	"toolscan/core/utils"
 
 	"github.com/c-bata/go-prompt"
 )

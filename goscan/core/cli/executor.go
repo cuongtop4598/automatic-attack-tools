@@ -6,10 +6,10 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
-	"toolscan/goscan/core/enum"
-	"toolscan/goscan/core/model"
-	"toolscan/goscan/core/scan"
-	"toolscan/goscan/core/utils"
+	"toolscan/core/enum"
+	"toolscan/core/model"
+	"toolscan/core/scan"
+	"toolscan/core/utils"
 
 	"github.com/olekukonko/tablewriter"
 )

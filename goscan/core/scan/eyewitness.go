@@ -3,8 +3,8 @@ package scan
 import (
 	"fmt"
 	"path/filepath"
-	"toolscan/goscan/core/model"
-	"toolscan/goscan/core/utils"
+	"toolscan/core/model"
+	"toolscan/core/utils"
 )
 
 // ---------------------------------------------------------------------------------------

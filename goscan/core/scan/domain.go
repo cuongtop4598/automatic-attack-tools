@@ -2,7 +2,7 @@ package scan
 
 import (
 	"fmt"
-	"toolscan/goscan/core/utils"
+	"toolscan/core/utils"
 )
 
 // ---------------------------------------------------------------------------------------

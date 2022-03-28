@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"path/filepath"
 	"time"
-	"toolscan/goscan/core/model"
-	"toolscan/goscan/core/scan"
-	"toolscan/goscan/core/utils"
+	"toolscan/core/model"
+	"toolscan/core/scan"
+	"toolscan/core/utils"
 )
 
 // ---------------------------------------------------------------------------------------
