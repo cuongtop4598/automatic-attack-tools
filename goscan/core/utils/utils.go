@@ -7,7 +7,7 @@ import (
 	"os/user"
 	"path/filepath"
 	"strings"
-	"toolscan/goscan/core/model"
+	"toolscan/core/model"
 
 	"github.com/jinzhu/gorm"
 )
