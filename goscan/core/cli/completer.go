@@ -68,8 +68,8 @@ func argumentsCompleter(d prompt.Document, args []string) []prompt.Suggest {
 			}
 			return prompt.FilterHasPrefix(subcommands, args[1], true)
 		}
-		if len(args) > 2 {
-			return prompt.FilterHasPrefix(getAttackSuggestions(), args[3], true)
+		if len(args) == 3 {
+			return prompt.FilterHasPrefix(getAttackSuggestions(), args[2], true)
 		}
 	case "show":
 		if len(args) == 2 {

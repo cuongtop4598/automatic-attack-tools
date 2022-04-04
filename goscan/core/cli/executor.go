@@ -82,6 +82,7 @@ func cmdHelp() {
 		{"Load Host Discovery", "Add a single alive host via the CLI (must be a /32)", "load alive SINGLE <IP>"},
 		{"Load Host Discovery", "Upload multiple alive hosts from a text file or folder", "load alive MULTI <path-to-file>"},
 
+		{"Attack", "Perform a metasploit exploier", "attack <TYPE> <TARGET>"},
 		{"Port Scan", "Perform a port scan", "portscan <TYPE> <TARGET>"},
 		{"Load Port Scan", "Upload nmap port scan results from XML files or folder", "load portscan <path-to-file>"},
 
