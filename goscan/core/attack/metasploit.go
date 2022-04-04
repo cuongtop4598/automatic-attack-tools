@@ -29,10 +29,10 @@ func DDOSAll(db *gorm.DB, target string) {
 	// msfrpcd -U kali -P kali
 	client, err := gomsf.New("0.0.0.0:55553")
 	if err != nil {
-		panic(err)
+		utils.Config.Log.LogError(err.Error())
 	}
 	if err := client.Login("kali", "kali"); err != nil {
-		panic(err)
+		utils.Config.Log.LogError(err.Error())
 	}
 	defer client.Logout()
 	utils.Config.Log.LogInfo("Create client RPC to metasploit successfully")
@@ -49,7 +49,7 @@ func DDOSSingle(target string, port int, client *gomsf.Client) {
 		"LPORT": port,
 	})
 	if err != nil {
-		panic(err)
+		utils.Config.Log.LogError(err.Error())
 	}
 	utils.Config.Log.LogInfo("JobID: " + strconv.Itoa(int(executeResult.JobID)))
 	utils.Config.Log.LogInfo("UUID: " + executeResult.UUID)
