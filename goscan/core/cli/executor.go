@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"toolscan/core/attack"
 	"toolscan/core/enum"
 	"toolscan/core/model"
 	"toolscan/core/scan"
@@ -28,6 +29,8 @@ func Executor(s string) {
 		cmdPortscan(args)
 	case "enumerate":
 		cmdEnumerate(args)
+	case "attack":
+		cmdAttack(args)
 	case "special":
 		cmdSpecial(args)
 	case "show":
@@ -50,6 +53,21 @@ func Executor(s string) {
 }
 
 // ---------------------------------------------------------------------------------------
+// ATTACK
+// ---------------------------------------------------------------------------------------
+func cmdAttack(args []string) {
+	if len(args) != 2 {
+		utils.Config.Log.LogError("Invalid command provided")
+		return
+	}
+	// Parse kind of attack and target
+	kind, args := utils.ParseNextArg(args)
+	target, _ := utils.ParseNextArg(args)
+	// Perform attack
+	attack.MetasploitAttack(kind, target)
+}
+
+// ---------------------------------------------------------------------------------------
 // HELP
 // ---------------------------------------------------------------------------------------
 func cmdHelp() {
@@ -57,37 +75,36 @@ func cmdHelp() {
 	utils.Config.Log.LogInfo("Available commands:")
 
 	data := [][]string{
-		[]string{"Load target", "Add a single target via the CLI (must be a /32)", "load target SINGLE <IP>"},
-		[]string{"Load target", "Upload multiple targets from a text file or folder", "load target MULTI <path-to-file>"},
+		{"Load target", "Add a single target via the CLI (must be a /32)", "load target SINGLE <IP>"},
+		{"Load target", "Upload multiple targets from a text file or folder", "load target MULTI <path-to-file>"},
 
-		[]string{"Host Discovery", "Perform a Ping Sweep", "sweep <TYPE> <TARGET>"},
-		[]string{"Load Host Discovery", "Add a single alive host via the CLI (must be a /32)", "load alive SINGLE <IP>"},
-		[]string{"Load Host Discovery", "Upload multiple alive hosts from a text file or folder", "load alive MULTI <path-to-file>"},
+		{"Host Discovery", "Perform a Ping Sweep", "sweep <TYPE> <TARGET>"},
+		{"Load Host Discovery", "Add a single alive host via the CLI (must be a /32)", "load alive SINGLE <IP>"},
+		{"Load Host Discovery", "Upload multiple alive hosts from a text file or folder", "load alive MULTI <path-to-file>"},
 
-		[]string{"Port Scan", "Perform a port scan", "portscan <TYPE> <TARGET>"},
-		[]string{"Load Port Scan", "Upload nmap port scan results from XML files or folder", "load portscan <path-to-file>"},
+		{"Port Scan", "Perform a port scan", "portscan <TYPE> <TARGET>"},
+		{"Load Port Scan", "Upload nmap port scan results from XML files or folder", "load portscan <path-to-file>"},
 
-		[]string{"Service Enumeration", "Dry Run (only show commands, without performing them", "enumerate <TYPE> DRY <TARGET>"},
-		[]string{"Service Enumeration", "Perform enumeration of detected services", "enumerate <TYPE> <POLITE/AGGRESSIVE> <TARGET>"},
+		{"Service Enumeration", "Dry Run (only show commands, without performing them", "enumerate <TYPE> DRY <TARGET>"},
+		{"Service Enumeration", "Perform enumeration of detected services", "enumerate <TYPE> <POLITE/AGGRESSIVE> <TARGET>"},
 
-		[]string{"Special Scan - EyeWitness", "Take screenshots of websites, RDP services, and open VNC servers (KALI ONLY)", "special eyewitness"},
+		{"Special Scan - EyeWitness", "Take screenshots of websites, RDP services, and open VNC servers (KALI ONLY)", "special eyewitness"},
 
-		[]string{"Special Scan - Domain Info", "Extract Windows domain information from enumeration data", "special domain <users/hosts/servers>"},
+		{"Special Scan - Domain Info", "Extract Windows domain information from enumeration data", "special domain <users/hosts/servers>"},
 
-		[]string{"Special Scan - DNS", "Enumerate DNS (nmap, dnsrecon, dnsenum)", "special dns DISCOVERY <domain>"},
-		[]string{"Special Scan - DNS", "Bruteforce DNS", "special dns BRUTEFORCE <domain>"},
-		[]string{"Special Scan - DNS", "Reverse Bruteforce DNS", "special dns BRUTEFORCE_REVERSE <domain> <base_IP>"},
+		{"Special Scan - DNS", "Enumerate DNS (nmap, dnsrecon, dnsenum)", "special dns DISCOVERY <domain>"},
+		{"Special Scan - DNS", "Bruteforce DNS", "special dns BRUTEFORCE <domain>"},
+		{"Special Scan - DNS", "Reverse Bruteforce DNS", "special dns BRUTEFORCE_REVERSE <domain> <base_IP>"},
 
-		[]string{"Show", "Show targets", "show targets"},
-		[]string{"Show", "Show live hosts", "show hosts"},
-		[]string{"Show", "Show detailed ports information", "show ports"},
+		{"Show", "Show targets", "show targets"},
+		{"Show", "Show live hosts", "show hosts"},
+		{"Show", "Show detailed ports information", "show ports"},
+		{"Utils", "Set configs from file", "set config_file <PATH>"},
+		{"Utils", "Set output folder", "set output_folder <PATH>"},
+		{"Utils", "Modify the default nmap switches", "set nmap_switches <SWEEP/TCP_FULL/TCP_STANDARD/TCP_VULN/UDP_STANDARD> <SWITCHES>"},
+		{"Utils", "Modify the default wordlists", "set wordlists <FINGER_USER/FTP_USER/...> <PATH>"},
 
-		[]string{"Utils", "Set configs from file", "set config_file <PATH>"},
-		[]string{"Utils", "Set output folder", "set output_folder <PATH>"},
-		[]string{"Utils", "Modify the default nmap switches", "set nmap_switches <SWEEP/TCP_FULL/TCP_STANDARD/TCP_VULN/UDP_STANDARD> <SWITCHES>"},
-		[]string{"Utils", "Modify the default wordlists", "set wordlists <FINGER_USER/FTP_USER/...> <PATH>"},
-
-		[]string{"Utils", "Exit this program", "exit"},
+		{"Utils", "Exit this program", "exit"},
 	}
 
 	table := tablewriter.NewWriter(os.Stdout)
