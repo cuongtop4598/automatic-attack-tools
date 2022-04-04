@@ -23,7 +23,7 @@ func MetasploitAttack(kind string, target string) {
 func DDOSAll(db *gorm.DB, target string) {
 	// get port
 	host := model.GetHostByAddress(db, target)
-	ports := host.Ports
+	ports := host.GetPorts(utils.Config.DB)
 
 	// init RPC clinet to communicate with metasploit
 	// msfrpcd -U kali -P kali
