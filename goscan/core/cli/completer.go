@@ -42,6 +42,7 @@ var commands = []prompt.Suggest{
 	{Text: "sweep", Description: "Perform a Ping Sweep to discover alive hosts."},
 	{Text: "portscan", Description: "Perform a port scan."},
 	{Text: "enumerate", Description: "Perform enumeration of detected services."},
+	{Text: "attack", Description: "Attack by using metasploit framework"},
 	{Text: "special", Description: "Special scans (EyeWitness, Domain Info, DNS)."},
 	{Text: "show", Description: "Show results (hosts/ports/etc/)."},
 	{Text: "set", Description: "Set different constants (output folder, nmap switches, wordlists)."},
@@ -59,6 +60,17 @@ func argumentsCompleter(d prompt.Document, args []string) []prompt.Suggest {
 	// -----------------------------------------------------------------------------------
 	// UTILS
 	// -----------------------------------------------------------------------------------
+	case "attack":
+		if len(args) == 2 {
+			subcommands := []prompt.Suggest{
+				{Text: "ddos", Description: "type of attack"},
+				{Text: "192.168.1.1", Description: "target"},
+			}
+			return prompt.FilterHasPrefix(subcommands, args[1], true)
+		}
+		if len(args) > 2 {
+			return prompt.FilterHasPrefix(getAttackSuggestions(), args[3], true)
+		}
 	case "show":
 		if len(args) == 2 {
 			subcommands := []prompt.Suggest{
@@ -450,6 +462,16 @@ func getEnumerationSuggestions() []prompt.Suggest {
 		})
 	}
 
+	return s
+}
+
+func getAttackSuggestions() []prompt.Suggest {
+	target := model.GetHostByAddress(utils.Config.DB, model.SCANNED.String())
+	s := make([]prompt.Suggest, 1, 1)
+	s = append(s, prompt.Suggest{
+		Text:        target.Address,
+		Description: fmt.Sprintf("Attack: %s", target.Address),
+	})
 	return s
 }
 
