@@ -36,6 +36,11 @@ func DDOSAll(db *gorm.DB, target string) {
 	}
 	defer client.Logout()
 	utils.Config.Log.LogInfo("Create client RPC to metasploit successfully")
+
+	if len(ports) == 0 {
+		utils.Config.Log.LogInfo("No service is running")
+		return
+	}
 	for _, port := range ports {
 		utils.Config.Log.LogInfo("Executing DDOS attack on port " + strconv.Itoa(port.Number))
 		DDOSSingle(target, port.Number, client)
